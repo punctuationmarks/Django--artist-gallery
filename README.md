@@ -1,4 +1,4 @@
 # Artist Gallery app with Django
 
-Simple app that has a gallery, portfolio, blog, home and bio pages for artists to showcase their work. 
-Build with Django and Bootstrap4 
+
+Simple customizeable web app built in Python's Dajngo framework with their built in ORM SQLite as the dataebase with Bootstrap4 as the front-end-framework. It's a simple design to help local artists share, promote, express and sell their work. If you have any questions or want to get this up and running, let me know.
