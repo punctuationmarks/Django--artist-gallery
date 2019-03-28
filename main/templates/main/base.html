@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'main/main.css' %}">
+        {% if title %}
+            <title>Artist- {{ title }}</title>
+        {% else %}
+            <title>Artist</title>
+        {% endif %}
+</head>
+
+<body>
+  <header class = "site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-nav-color fixed-top">
+          <div class="container">
+
+          <a class="navbar-brand mr-2 topOfPage" href="/">*</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collaps navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'homePage' %}">Home <span class="sr-only">(current)</span></a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'portfolio' %}">Portfolio</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog' %}">Writings</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-item nav-link" href="{% url 'bioPage' %}">Bio</a>
+              </li>
+
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Post
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'gallery-post-create' %}">New Gallery Post (for sale)</a>
+                  <a class="dropdown-item" href="{% url 'portfolio-post-create' %}">New Portfolio Post</a>
+                  <a class="dropdown-item" href="{% url 'blog-post-create' %}">New Blog Post</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-item nav-link" href="/admin/logout">Logout</a>
+              </li>
+            </ul>
+          </div>
+          {% endif %}
+
+        </div>
+    </nav>
+  </header>
+
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="container">
+
+        {% block content %}{% endblock content %}
+        {% block modal %}{% endblock modal %}
+
+
+      </div>
+      <div class="container text-center">
+      <!-- Pagination logic -->
+            {% if is_paginated %}
+
+              {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}"><</a>
+              {% endif %}
+
+              {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                  <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                  <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">></a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+              {% endif %}
+
+          {% endif %}
+
+      </div>
+    </main>
+
+    <!-- FIX FOOTER -->
+    <nav class="navbar fixed-bottom navbar-dark bg-nav-color">
+      <a class="navbar-brand mr-4 bottomOfPage_left" href="#">
+        <i class="fas fa-heart"></i></a>
+
+        <div class="text-center">
+
+
+              {% if title == "Bio"%}
+                 <small class="text-left">Made with <a class="" href="https://phoebx.com" target="_blank"><i class="far fa-heart"></i></a> by <a class="" href="https://github.com/punctuationmarks" target="_blank">punctuationmarks</a></small>
+
+              {% else %}
+
+                <a class="pad" href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a class="pad" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a class="pad" href="https://github.com/punctuationmarks" target="_blank"><i class="fab fa-github"></i></a>
+                <a class="pad" href="#"><i class="fas fa-mail-bulk"></i></a>
+                <a class="pad" href="#" target="_blank"><i class="far fa-map"></i></a>
+
+              </div>
+
+              {% endif %}
+
+            <a class="navbar-brand text-right bottomOfPage_right" href="#"><i class="fas fa-arrow-circle-up"></i></a>
+        </nav>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{% static 'main/index.js' %}" ></script>
+</body>
+</html>

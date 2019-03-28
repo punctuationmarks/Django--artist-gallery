@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+{% block content %}
+  <div class="container">
+
+        {% if post %}
+              <h1 class="text-center">{{ post.title }}</h1>
+              <img class="img-responsive mx-auto d-block" style="width: 600px; max-width:75%" src="{{ post.image.url }}" alt=""/>
+              <hr>
+              <p class="text-justify">{{ post.body }}</p>
+        {% else %}
+              <h1 class="text-center">Artist Home Page Title</h1>
+              <p class="text-justify">Ambitioni dedisse scripsisse iudicaretur. 'Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus. Praeterea iter est quasdam res quas ex communi. At nos hinc posthac, sitientis piros Afros. Petierunt uti sibi concilium totius Galliae in diem certam indicere. Cras mattis iudicium purus sit amet fermentum.</p>
+        {% endif %}
+</div>
+
+    {% if user.is_authenticated %}
+        <div>
+          <span class="text-muted small text-left">If you want to edit the Home page and Bio Page, you can do that from the admin site</span>
+        </div>
+    {% endif %}
+{% endblock content %}

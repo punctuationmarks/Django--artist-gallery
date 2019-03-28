@@ -1,0 +1,33 @@
+{% extends "main/base.html" %}
+{% block content %}
+<!-- using object.whatever since we're only rendering one thing
+and that is the default naming convention for django, if you
+wanted to change that you would have to change the
+class PostDetailView() in the views.py file -->
+
+    <article class="media blog-content-section">
+      <img class="rounded-cirlce article-img" src="{{ object.author.profile.image.url }}" alt="">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2 ml-2" href="#">{{ object.author }}</a>
+          {% if object.author == user %}
+          <div>
+            <small class="text-muted">Date Posted: {{ object.date_posted|date:"F d, Y" }} ||</small>
+            <small class="text-muted">Last Updated: {{ object.last_modified|date:"F d, Y P e" }}</small>
+          </div>
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'portfolio-post-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'portfolio-post-delete' object.id %}">Delete</a>
+          </div>
+          {% endif %}
+        </div>
+        <h2 class="article-title">{{ object.title }}</h2>
+        <img src="{{ object.image.url }}" class="img-fluid" alt="">
+        <p class="article-content">{{ object.body }}</p>
+      </div>
+    </article>
+{% endblock content %}
+
+<!-- this is named this because django is looking for this
+naming convention by default
+# <app>/<model>_<viewtype>.html -->
